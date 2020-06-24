@@ -5,7 +5,7 @@ from redis import StrictRedis
 from datetime import datetime
 
 app = Flask(__name__)
-redis = StrictRedis(host='redis', port=6379)
+redis = StrictRedis(host='backend', port=6379)
 
 @app.route('/')
 def home():
