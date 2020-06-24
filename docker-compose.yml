@@ -4,7 +4,6 @@ services:
     build: app
     x-aws-pull_credentials: arn:aws:secretsmanager:us-west-2:175142243308:secret:DockerHubAccessToken-8cRLae
     image: metcalfc/timestamper
-    #image: 175142243308.dkr.ecr.us-west-2.amazonaws.com/ecs-compose-example/frontend
     ports:
       - "5000:5000"
     depends_on:
