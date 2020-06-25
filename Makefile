@@ -1,8 +1,9 @@
-FRONTEND_IMG = metcalfc/timestamper
+REPO_NAMESPACE ?= ${USER}
+FRONTEND_IMG = ${REPO_NAMESPACE}/timestamper
 REGISTRY_ID=175142243308
 DOCKER_PUSH_REPOSITORY=dkr.ecr.us-west-2.amazonaws.com
 
-all: build-image 
+all: build-image
 
 create-ecr:
 	aws ecr create-repository --repository-name ${FRONTEND_IMG}
@@ -17,3 +18,9 @@ push-image-ecr:
 
 push-image-hub:
 	docker push $(FRONTEND_IMG)
+
+clean:
+	@docker context use default
+	@docker context rm aws || true
+	@docker-compose rm -f || true
+	@rm -f ./stack.json || true
