@@ -1,8 +1,9 @@
 
-from flask import Flask
-from flask import render_template
-from redis import StrictRedis
 from datetime import datetime
+
+from flask import Flask, render_template
+
+from redis import StrictRedis
 
 app = Flask(__name__)
 redis = StrictRedis(host='backend', port=6379)
