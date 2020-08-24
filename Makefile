@@ -1,7 +1,9 @@
 REPO_NAMESPACE ?= ${USER}
-FRONTEND_IMG = ${REPO_NAMESPACE}/timestamper
+TAG=$(shell git rev-parse --short HEAD)
+FRONTEND_IMG = ${REPO_NAMESPACE}/timestamper:${TAG}
 REGISTRY_ID=175142243308
 DOCKER_PUSH_REPOSITORY=dkr.ecr.us-west-2.amazonaws.com
+
 
 all: build-image
 
@@ -18,6 +20,12 @@ push-image-ecr:
 
 push-image-hub:
 	docker push $(FRONTEND_IMG)
+
+dev: secret.txt build-image
+	GIT_HASH=${TAG} docker-compose up
+
+deploy: secret.txt push-image-hub
+	GIT_HASH=${TAG} docker ecs compose up
 
 clean:
 	@docker context use default

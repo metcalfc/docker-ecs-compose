@@ -1,12 +1,17 @@
 version: "3.8"
 services:
   frontend:
-    build: app
     x-aws-pull_credentials: arn:aws:secretsmanager:us-west-2:175142243308:secret:DockerHubAccessToken-8cRLae
-    image: metcalfc/timestamper
+    image: metcalfc/timestamper:${GIT_HASH}
     ports:
       - "5000:5000"
     depends_on:
       - backend
+    secrets:
+      - classified
   backend:
     image: redis:alpine
+
+secrets:
+  classified:
+    file: secret.txt
