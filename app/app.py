@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from flask import Flask, render_template
@@ -6,9 +7,11 @@ from redis import StrictRedis
 
 app = Flask(__name__)
 redis = StrictRedis(host="backend", port=6379)
+audience = "Just Me"
 
-with open("/run/secrets/classified", "r") as secret:
-    audience = secret.readline()
+if os.path.exists("/run/secrets/classified"):
+    with open("/run/secrets/classified", "r") as secret:
+        audience = secret.readline()
 
 
 @app.route("/")

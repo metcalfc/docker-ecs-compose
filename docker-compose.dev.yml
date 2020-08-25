@@ -1,8 +1,13 @@
 version: "3.8"
 services:
-  frontend:
-    x-aws-pull_credentials: ${HUB_PULL_SECRET}
-    image: ${FRONTEND_IMG}
+  web:
+    build:
+      context: ./app
+      target: prod
+    environment:
+      - FLASK_ENV=development
+    volumes:
+      - "${PWD}/app:/app"
     ports:
       - "5000:5000"
     depends_on:
