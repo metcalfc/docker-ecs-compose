@@ -35,18 +35,18 @@ create-ecr:
 	aws ecr create-repository --repository-name ${FRONTEND_IMG}
 
 build-image:
-	docker build --target prod -t $(REGISTRY_ID).$(DOCKER_PUSH_REPOSITORY)/$(FRONTEND_IMG) ./app
-	docker build --target prod -t $(FRONTEND_IMG) ./app
+	docker --context default build --target prod -t $(REGISTRY_ID).$(DOCKER_PUSH_REPOSITORY)/$(FRONTEND_IMG) ./app
+	docker --context default build --target prod -t $(FRONTEND_IMG) ./app
 
 push-image-ecr:
 	aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin $(REGISTRY_ID).$(DOCKER_PUSH_REPOSITORY)
-	docker push $(REGISTRY_ID).$(DOCKER_PUSH_REPOSITORY)/$(FRONTEND_IMG)
+	docker --context default push $(REGISTRY_ID).$(DOCKER_PUSH_REPOSITORY)/$(FRONTEND_IMG)
 
 push-image-hub:
-	docker push $(FRONTEND_IMG)
+	docker --context default push $(FRONTEND_IMG)
 
 deploy: secret.txt push-image-hub
-	HUB_PULL_SECRET=${HUB_PULL_SECRET} FRONTEND_IMG=${FRONTEND_IMG} docker ecs compose up
+	HUB_PULL_SECRET=${HUB_PULL_SECRET} FRONTEND_IMG=${FRONTEND_IMG} docker compose up
 
 clean:
 	@docker-compose rm -f || true
