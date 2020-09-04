@@ -48,6 +48,9 @@ push-image-hub:
 deploy: secret.txt push-image-hub
 	HUB_PULL_SECRET=${HUB_PULL_SECRET} FRONTEND_IMG=${FRONTEND_IMG} docker compose up
 
+convert:
+	HUB_PULL_SECRET=${HUB_PULL_SECRET} FRONTEND_IMG=${FRONTEND_IMG} docker compose convert
+
 clean:
 	@docker-compose rm -f || true
 	@docker rmi ${FRONTEND_IMG}
