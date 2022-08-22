@@ -269,3 +269,8 @@ docker compose down
 ```
 
 This stuff costs real money to deploy so when you are done clean it up.
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
